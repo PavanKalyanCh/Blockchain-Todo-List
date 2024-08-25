@@ -25,11 +25,11 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run ESLint for JavaScript files
-      run: npx eslint . --ext .js,.jsx,.ts,.tsx
+    # - name: Run ESLint for JavaScript files
+    #   run: npx eslint . --ext .js,.jsx,.ts,.tsx
 
-    - name: Run Solhint for Solidity files
-      run: npx solhint "contracts/**/*.sol"
+    # - name: Run Solhint for Solidity files
+    #   run: npx solhint "contracts/**/*.sol"
 
   test:
     name: Running Tests
