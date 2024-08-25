@@ -46,7 +46,9 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
+        working-directory: ls -a
         run: npm install
+        
 
       - name: Set up Ethereum environment
         run: |
