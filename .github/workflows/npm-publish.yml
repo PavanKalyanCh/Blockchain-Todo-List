@@ -14,22 +14,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout the code
-      uses: actions/checkout@v3
+      - name: Checkout the code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    # - name: Run ESLint for JavaScript files
-    #   run: npx eslint . --ext .js,.jsx,.ts,.tsx
+      # - name: Run ESLint for JavaScript files
+      #   run: npx eslint . --ext .js,.jsx,.ts,.tsx
 
-    # - name: Run Solhint for Solidity files
-    #   run: npx solhint "contracts/**/*.sol"
+      # - name: Run Solhint for Solidity files
+      #   run: npx solhint "contracts/**/*.sol"
 
   test:
     name: Running Tests
@@ -37,27 +37,27 @@ jobs:
     needs: lint
 
     steps:
-     - name: Checkout the code
-       uses: actions/checkout@v3
+      - name: Checkout the code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Set up Ethereum environment
-      run: |
-        npm install -g truffle ganache-cli
-        ganache-cli --deterministic &
+      - name: Set up Ethereum environment
+        run: |
+          npm install -g truffle ganache-cli
+          ganache-cli --deterministic &
 
-    - name: Deploy contracts and run tests
-      run: |
-        truffle compile
-        truffle migrate --network development
-        truffle test --network development
+      - name: Deploy contracts and run tests
+        run: |
+          truffle compile
+          truffle migrate --network development
+          truffle test --network development
 
   build:
     name: Build the Application
@@ -65,19 +65,19 @@ jobs:
     needs: test
 
     steps:
-    - name: Checkout the code
-      uses: actions/checkout@v3
+      - name: Checkout the code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Build the React app
-      run: npm run build
+      - name: Build the React app
+        run: npm run build
 
   deploy:
     name: Deploy the Application
@@ -85,30 +85,30 @@ jobs:
     needs: build
 
     steps:
-    - name: Checkout the code
-      uses: actions/checkout@v3
+      - name: Checkout the code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Build the React app
-      run: npm run build
+      - name: Build the React app
+        run: npm run build
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
 
-    - name: Deploy Smart Contract to Sepolia
-      env:
-        ALCHEMY_API_URL: "https://eth-sepolia.g.alchemy.com/v2/VWr7R2lE8m7t2DGRFQY82bQHwp_VSnst"
-        WALLET_PRIVATE_KEY: "44a0694b7fdc90ce225d206101b39becba86b56dca38dc7310422dae456499b9"
-      run: |
-        truffle compile
-        truffle migrate --network sepolia
+      - name: Deploy Smart Contract to Sepolia
+        env:
+          ALCHEMY_API_URL: "https://eth-sepolia.g.alchemy.com/v2/VWr7R2lE8m7t2DGRFQY82bQHwp_VSnst"
+          WALLET_PRIVATE_KEY: "44a0694b7fdc90ce225d206101b39becba86b56dca38dc7310422dae456499b9"
+        run: |
+          truffle compile
+          truffle migrate --network sepolia
