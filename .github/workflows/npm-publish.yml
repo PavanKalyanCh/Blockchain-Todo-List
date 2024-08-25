@@ -46,9 +46,8 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        working-directory: ls -a
         run: npm install
-        
+        working-directory: ./Todo-List-BlockChain
 
       - name: Set up Ethereum environment
         run: |
