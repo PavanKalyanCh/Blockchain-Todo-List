@@ -47,7 +47,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./Todo-List-BlockChain
+        working-directory: ./BlockChain-Todo-List
 
       - name: Set up Ethereum environment
         run: |
