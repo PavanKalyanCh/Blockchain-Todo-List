@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain To Do LIST Application</title>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Web3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <!-- Custom App Script -->
+    <script src="./App.js" defer></script>
+    <style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f0f2f5;
+        padding: 40px;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        color: #333;
+    }
+
+    h1 {
+        color: #333;
+        font-size: 2em;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    #wallet {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    #wallet:hover {
+        transform: translateY(-3px);
+    }
+
+    #wallet label {
+        font-weight: 500;
+        font-size: 1.1em;
+        color: #555;
+        margin-bottom: 10px;
+        display: block;
+        text-align: left;
+    }
+
+    #amount {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1em;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+
+    #amount:focus {
+        border-color: #007bff;
+    }
+
+    #balance {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #444;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1em;
+        width: 48%;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+    }
+
+    button:hover {
+        background-color: #0056b3;
+        transform: translateY(-3px);
+    }
+
+    #connect {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #28a745;
+        color: white;
+        font-size: 1em;
+        padding: 12px 25px;
+        border-radius: 6px;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    #connect:hover {
+        background-color: #218838;
+        transform: translateY(-3px);
+    }
+
+    #loader {
+        display: none;
+        margin-top: 10px;
+        font-size: 1em;
+        color: #007bff;
+    }
+
+    #error-message {
+        color: red;
+        font-size: 0.9em;
+        display: none;
+        margin-top: 10px;
+    }
+
+    /* Task display styles */
+    .task {
+        background-color: #f9f9f9;
+        padding: 10px 15px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .task button {
+        width: auto;
+        padding: 8px 12px;
+        margin-left: 5px;
+        font-size: 0.9em;
+        box-shadow: none;
+        background-color: #17a2b8;
+    }
+
+    .task button.delete {
+        background-color: #dc3545;
+    }
+
+    .task button:hover {
+        background-color: #117a8b;
+    }
+
+    .task button.delete:hover {
+        background-color: #c82333;
+    }
+
+    .task span {
+        font-weight: 500;
+        color: #555;
+    }
+
+    .task .completed {
+        text-decoration: line-through;
+        color: #888;
+    }
+</style>
+
+</head>
+<body>
+    <button id="connect" onclick="connect()">Connect Wallet</button>
+    <div id="wallet">
+        <h1>To do List App</h1>
+        <label for="task">Task</label>
+        <input type="text" id="amount" placeholder="Enter Task">
+        <p>Task: <span id="balance">No Task Added</span></p>
+        <div class="button-container">
+            <button id="deposit" onclick="addTask()">Add Task</button>
+            <button id="withdraw" onclick="deleteTask()">Delete Task</button>
+        </div>
+        <div id="loader">Processing...</div>
+        <div id="error-message"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof web3 !== 'undefined') {
+                connect().then(showTask);
+            }
+        });
+    </script>
+</body>
+</html>
